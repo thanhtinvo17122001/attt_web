@@ -1,0 +1,16 @@
+version: '3.5'
+services:
+  mysql:
+    image: mysql
+    container_name: mysql_container
+    ports:
+      - 3306:3306
+    volumes:
+      - dbdata:/data/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: changeme
+      MYSQL_DATABASE: attt_web
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: changeme
+volumes:
+  dbdata:
