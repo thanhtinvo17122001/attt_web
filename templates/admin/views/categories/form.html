@@ -1,0 +1,73 @@
+{% extends 'admin/layouts/master.html' %} {% block body %}
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/admin/dashboard">Admin</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="/admin/categories">Danh mục</a>
+  </li>
+  <li class="breadcrumb-item active">
+    {% if id == None %} Thêm {% else %} Sửa {% endif %} 
+  </li>
+</ol>
+<div class="card mb-3">
+  <div class="card-header">
+    <i class="fas fa-table"></i>
+      Thông tin danh mục
+  </div>
+  <div class="card-body">
+    <form method="POST" data-parsley-validate class="form form-validate">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="name">Tên danh mục</label>
+            <input
+              minlength="6"
+              maxlength="30"
+              data-parsley-required
+              autocomplete="off"
+              value="{{ category.name }}"
+              name="name"
+              type="text"
+              id="name"
+              class="form-control"
+              autofocus="autofocus"
+            />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="parent_id">Danh mục cha</label>
+            <select
+              name="parent_id"
+              class="form-control"
+              id="parent_id"
+            >
+            <option value="">Trống</option>
+            {% for c in parents %}
+              <option
+                {% if category.parent_id|stringformat:'s' == c.id|stringformat:'s' %}selected{% endif %}
+                value="{{c.id}}"
+              >
+              {{c.name}}
+            </option>
+            {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-light">
+        {% if id == None %} Thêm {% else %} Sửa {% endif %} 
+      </button>
+    </form>
+  </div>
+  <div class="card-footer small text-muted">
+    {% if id == None %} Thêm mới danh mục
+    {% else %}
+    Chỉnh sửa lúc
+    <script type="text/javascript">writeTimeFormat('{{ category.updated_at|escapejs }}')</script>
+    {% endif %} 
+  </div>  
+</div>
+{% endblock %}

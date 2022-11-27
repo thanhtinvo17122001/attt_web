@@ -1,0 +1,55 @@
+{% extends 'admin/layouts/master.html' %} {% block body %}
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/admin/dashboard">Admin</a>
+  </li>
+  <li class="breadcrumb-item active">Bài viết</li>
+  <li class="ml-auto">
+    <a href="/admin/posts/add">
+      <i class="fas fa-fw fa-plus"></i>Thêm
+    </a>
+  </li>
+</ol>
+<div class="card mb-3">
+  <div class="card-header">
+    <i class="fas fa-table"></i>
+    Danh sách bài viết
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table
+        class="table table-bordered"
+        id="dataTable"
+        width="100%"
+        cellspacing="0"
+      >
+        <thead>
+          <tr>
+            <td style="width: 30%">Tiêu đề</td>
+            <td>Danh mục</td>
+            <td>Tạo bởi</td>
+            <td>Hành động</td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in posts %}
+          <tr>
+            <td>
+              <a href="/admin/posts/{{ p.id }}">{{ p.title }}</a>
+            </td>
+            <td>
+              <a href="/admin/categories/{{ p.category.id }}">{{ p.category.name }}</a>
+            </td>
+            <td>{{ p.created_by.username }}</td>
+            <td>
+              <a onclick="return confirm('Bạn có muốn xoá {{p.title}}?')" href="/admin/posts/delete/{{p.id}}">
+                Xoá</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

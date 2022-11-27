@@ -1,0 +1,17 @@
+{
+  "processing": "Đang xử lý...",
+  "lengthMenu": "Xem _MENU_",
+  "zeroRecords": "Không có dữ liệu",
+  "info": "Từ _START_ &rarr; _END_ / _TOTAL_ mục",
+  "infoEmpty": "Không có dữ liệu",
+  "infoFiltered": "(được lọc từ _MAX_ mục)",
+  "infoPostFix": "",
+  "search": "Tìm kiếm",
+  "url": "",
+  "paginate": {
+    "first": "Đầu",
+    "previous": "Trước",
+    "next": "Tiếp",
+    "last": "Cuối"
+  }
+}

@@ -1,0 +1,77 @@
+{% extends 'admin/layouts/master.html' %} {% block body %}
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/admin/dashboard">Admin</a>
+  </li>
+  <li class="breadcrumb-item active">Người dùng</li>
+  <li class="ml-auto">
+    <a href="/admin/users/add">
+      <i class="fas fa-fw fa-plus"></i>Thêm
+    </a>
+  </li>
+  </ol>
+<div class="card mb-3">
+  <div class="card-header">
+    <i class="fas fa-table"></i>
+    Danh sách users
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table
+        class="table table-bordered"
+        id="dataTable"
+        width="100%"
+        cellspacing="0"
+      >
+        <thead>
+          <tr>
+            <td>Tên đăng nhập</td>
+            <td>Họ tên</td>
+            <td>Tên tác giả</td>
+            <td>Vai trò</td>
+            <td>Trạng thái</td>
+            <td>Tạo bởi</td>
+            <td>Hành động</td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for u in users %}
+          <tr>
+            <td>
+              <a href="/admin/users/{{ u.id }}">{{ u.username }}</a>
+            </td>
+            <td>{{ u.full_name|default:'' }}</td>
+            <td>{{ u.author_name|default:'' }}</td>
+            <td>
+              {% if u.role == 'ADMIN' %}
+                Admin
+              {% elif u.role == 'EDITOR' %}
+                Biên tập
+              {% elif u.role == 'GUEST' %}
+                Khách
+              {% endif %} 
+            </td>
+            <td>
+              {% if u.status == 'ACTIVE' %}
+                Hoạt động
+              {% elif u.status == 'DISABLED' %}
+                Vô hiệu lực
+              {% elif u.status == 'PENDING' %}
+                Đang chờ
+              {% endif %} 
+            </td>
+            <td>{{ u.created_by.username }}</td>
+            <td>
+              {% if u.role != 'ADMIN' %}
+              <a onclick="return confirm('Bạn có muốn xoá {{u.username}}?')" href="/admin/users/delete/{{u.id}}">
+                Xoá</a>
+                {% endif %} 
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

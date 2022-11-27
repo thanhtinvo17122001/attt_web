@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'admin/css/fontawesome.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'admin/css/bootstrap.min.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'admin/css/datatables.bootstrap4.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'admin/css/sb-admin.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'admin/css/parsley.css' %}" />
+    <link rel="stylesheet" href="{% static 'admin/css/toastr.min.css' %}" />
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <script type="text/javascript">
+      function writeTimeFormat(dateString) {
+        const time = moment(new Date(dateString)).format('hh:mm A D/MM/YYYY');
+        document.write(time);
+      }
+    </script>
+    <style>
+      .page-link:focus {
+        box-shadow: none;
+      }
+      #toast-container > div {
+        opacity: 1;
+      }
+      body {
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+
+  <body id="page-top" class="sidebar-toggled">
+    {% include 'admin/layouts/header.html' %}
+
+    <div id="wrapper">
+      {% include 'admin/layouts/sidebar.html' %}
+
+      <div id="content-wrapper">
+        <div class="container-fluid">{% block body %}{% endblock %}</div>
+        {% include 'admin/layouts/footer.html' %}
+      </div>
+    </div>
+
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <script src="{% static 'admin/js/jquery.min.js' %}"></script>
+    <script src="{% static 'admin/js/jquery.datatables.min.js' %}"></script>
+    <script src="{% static 'admin/js/datatables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'admin/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'admin/js/sb-admin.min.js' %}"></script>
+    <script src="{% static 'admin/js/parsley.min.js' %}"></script>
+    <script src="{% static 'admin/js/vi.locale.js' %}"></script>
+    <script src="{% static 'admin/js/toastr.min.js' %}"></script>
+    <script src="{% static 'admin/ckeditor4/ckeditor.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        // datatables
+        $("#dataTable")?.DataTable({
+          order: [],
+          language: {
+            url: "{% static 'admin/json/datatables.vi.json' %}",
+          },
+        });
+        // custom file input
+        bsCustomFileInput.init()
+        // form validation
+        $(".form")?.parsley();
+        // Toastr
+        toastr.options.escapeHtml = true;
+        toastr.options.timeOut = 3000;
+        {% for message in messages %}
+          const message = '{{message}}';
+          const tag = '{{message.tags}}';
+          toastr[tag]?.(message);
+        {% endfor %}
+        // ckeditor
+        const ckeditor = document.querySelector('#ckeditor');
+        ckeditor && CKEDITOR.replace('ckeditor', { filebrowserUploadUrl: '/api/ckeditor/upload' });
+      });
+    </script>
+  </body>
+</html>

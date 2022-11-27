@@ -1,0 +1,53 @@
+{% extends 'admin/layouts/master.html' %} {% block body %}
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/admin/dashboard">Admin</a>
+  </li>
+  <li class="breadcrumb-item active">Thẻ</li>
+  <li class="ml-auto">
+    <a href="/admin/tags/add">
+      <i class="fas fa-fw fa-plus"></i>Thêm
+    </a>
+  </li>
+</ol>
+<div class="card mb-3">
+  <div class="card-header">
+    <i class="fas fa-table"></i>
+    Danh sách thẻ
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table
+        class="table table-bordered"
+        id="dataTable"
+        width="100%"
+        cellspacing="0"
+      >
+        <thead>
+          <tr>
+            <td>Tên thẻ</td>
+            <td>URL thẻ</td>
+            <td>Tạo bởi</td>
+            <td>Hành động</td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for t in tags %}
+          <tr>
+            <td>
+              <a href="/admin/tags/{{ t.id }}">{{ t.name }}</a>
+            </td>
+            <td>/{{ t.slug }}</td>
+            <td>{{ t.created_by.username }}</td>
+            <td>
+              <a onclick="return confirm('Bạn có muốn xoá {{t.name}}?')" href="/admin/tags/delete/{{t.id}}">
+                Xoá</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

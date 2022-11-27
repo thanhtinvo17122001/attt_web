@@ -1,0 +1,99 @@
+{% extends 'admin/layouts/master.html' %} {% block body %}
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/admin/dashboard">Admin</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="/admin/users">Người dùng</a>
+  </li>
+  <li class="breadcrumb-item active">
+    {% if id == None %} Thêm {% else %} Sửa {% endif %} 
+  </li>
+</ol>
+<div class="card mb-3">
+  <div class="card-header">
+    <i class="fas fa-table"></i>
+      Thông tin người dùng
+  </div>
+  <div class="card-body">
+    <form method="POST" data-parsley-validate class="form form-validate">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="username">Tên đăng nhập</label>
+            <input
+              minlength="6"
+              maxlength="30"
+              {% if id != None %} readonly {% endif %} 
+              data-parsley-required
+              autocomplete="off"
+              value="{{ user.username }}"
+              name="username"
+              type="text"
+              id="username"
+              class="form-control"
+              autofocus="autofocus"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Mật khẩu</label>
+            <input
+              minlength="6"
+              maxlength="30"
+              {% if id == None %} data-parsley-required {% endif %} 
+              autocomplete="off"
+              value="{{ user.password }}"
+              name="password"
+              type="text"
+              id="password"
+              class="form-control"
+              autofocus="autofocus"
+            />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="role">Vai trò</label>
+            <select
+              data-parsley-required
+              name="role"
+              class="form-control"
+              id="role"
+            >
+              <option {% if user.role == 'GUEST' %}selected{% endif %} value="GUEST">Khách</option>
+              <option {% if user.role == 'EDITOR' %}selected{% endif %} value="EDITOR">Biên tập</option>
+              <option {% if user.role == 'ADMIN' %}selected{% endif %} value="ADMIN">Admin</option>
+            </select>
+          </div>
+          {% if id != None %}
+          <div class="form-group">
+            <label for="status">Trạng thái</label>
+            <select
+              data-parsley-required
+              name="status"
+              class="form-control"
+              id="status"
+            >
+              <option {% if user.status == 'ACTIVE' %}selected{% endif %} value="ACTIVE">Hoạt động</option>
+              <option {% if user.status == 'DISABLED' %}selected{% endif %} value="DISABLED">Vô hiệu lực</option>
+              <option {% if user.status == 'PENDING' %}selected{% endif %} value="PENDING">Đang chờ</option>
+            </select>
+          </div>
+          {% endif %} 
+        </div>
+      </div>
+      <button type="submit" class="btn btn-light">
+        {% if id == None %} Thêm {% else %} Sửa {% endif %} 
+      </button>
+    </form>
+  </div>
+  <div class="card-footer small text-muted">
+    {% if id == None %} Thêm mới người dùng
+    {% else %}
+    Chỉnh sửa lúc
+    <script type="text/javascript">writeTimeFormat('{{ user.updated_at|escapejs }}')</script>
+    {% endif %} 
+  </div>  
+</div>
+{% endblock %}
