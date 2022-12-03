@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'public/css/style.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'admin/css/parsley.css' %}" />
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <title>An toàn thông tin</title>
+    <script type="text/javascript">
+      function writeTimeFormat(dateString) {
+        const time = moment(new Date(dateString)).format('HH:00 | D/MM/YYYY');
+        document.write(time);
+      }
+    </script>
+  </head>
+  <body>
+    {% include 'public/layouts/header.html' %}
+    <div class="content">
+      <div class="row m-0">
+      {% block body %}{% endblock %}
+      </div>
+    </div>
+
+    {% include 'public/layouts/footer.html' %}
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'admin/js/parsley.min.js' %}"></script>
+    <script src="{% static 'admin/js/vi.locale.js' %}"></script>
+  </body>
+</html>

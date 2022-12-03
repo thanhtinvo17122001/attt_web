@@ -23,7 +23,7 @@ Parsley.addMessages('vi', {
   mincheck:       "Bạn cần chọn tối thiểu %s tùy chọn.",
   maxcheck:       "Bạn cần chọn %s tùy chọn hoặc ít hơn.",
   check:          "Bạn cần chọn giữa %s và %s tùy chọn.",
-  equalto:        "Giá trị này cần bằng.",
+  equalto:        "Mật khẩu không trùng khớp.",
   euvatin:        "Đây không phải là số VAT.",
 });
 

@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'public/css/style.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    />
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <title>An toàn thông tin</title>
+    <script type="text/javascript">
+      function writeTimeFormat(dateString) {
+        const time = moment(new Date(dateString)).format('HH:00 | D/MM/YYYY');
+        document.write(time);
+      }
+    </script>
+  </head>
+  <body>
+    {% include 'public/layouts/header.html' %}
+    <div class="content">
+      <div class="row m-0">
+      {% block body %}{% endblock %}
+      {% include 'public/layouts/sidebar.html' %}
+      </div>
+    </div>
+
+    {% include 'public/layouts/footer.html' %}
+    <script src="{% static 'admin/js/jquery.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    $(document).ready(function () {
+      $(".txt-comment").keypress(function (e) {
+        const code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+          $('.btn-comment').trigger('click');
+          return true;
+        }
+      });
+      $('.btn-comment')?.click(() => {
+        function done(res) {
+          $('.comments').append(res);
+          $('.txt-comment').val('').focus();
+        }
+        function failure(jqXHR, textStatus, errorThrown) {
+          // console.log(jqXHR.responseText);
+        }
+        const content = $('.txt-comment').val();
+        const post_id = '{{post.id}}';
+        const url = `/comments/${post_id}`;
+        const csrf_token = '{{ csrf_token }}';
+        $.ajaxSetup({
+          headers: { 'X-CSRFToken': csrf_token }
+        });
+        const options = {
+          method: 'POST',
+          data: JSON.stringify({ content }),
+          dataType: 'html',
+          contentType: 'application/json',
+          url,
+        };
+
+        $.ajax(options).done(done).fail(failure);
+      });
+    });
+  </script>
+  </body>
+</html>

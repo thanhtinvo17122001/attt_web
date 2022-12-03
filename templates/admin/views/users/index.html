@@ -30,7 +30,6 @@
             <td>Tên tác giả</td>
             <td>Vai trò</td>
             <td>Trạng thái</td>
-            <td>Tạo bởi</td>
             <td>Hành động</td>
           </tr>
         </thead>
@@ -60,7 +59,6 @@
                 Đang chờ
               {% endif %} 
             </td>
-            <td>{{ u.created_by.username }}</td>
             <td>
               {% if u.role != 'ADMIN' %}
               <a onclick="return confirm('Bạn có muốn xoá {{u.username}}?')" href="/admin/users/delete/{{u.id}}">

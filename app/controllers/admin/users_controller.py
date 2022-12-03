@@ -25,6 +25,7 @@ def add_post(request):
     return render(request, 'admin/views/users/form.html', { 'user': payload })
 
   users_service.create(
+    email=None,
     username=payload['username'],
     password=make_password(payload['password']),
     role=payload['role'],

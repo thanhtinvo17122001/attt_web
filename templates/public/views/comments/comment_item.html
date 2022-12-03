@@ -1,0 +1,10 @@
+<div>
+  <h6>
+    {% if comment.user.full_name %}
+    {{ comment.user.full_name }}
+    {% else %}
+    {{ comment.user.username }}
+    {% endif %} 
+  </h6>
+  <p>{{ comment.content }}</p>
+</div>

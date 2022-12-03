@@ -1,0 +1,32 @@
+{% extends 'public/layouts/master_user.html' %} {% block body %}
+<style>
+  .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;position: sticky;
+  }
+  .content {
+    height: calc(100% - 182px);
+  }
+</style>
+<div class="col-12 mt-3 d-flex justify-content-center">
+  <form method="POST" action="" style="width: 300px">
+    {% csrf_token %}
+    {% for message in messages %}
+    <div class="text-{{message.tags}} {% if message.tags == 'error' %}text-danger{% endif %}">{{message}}</div>
+    {% endfor %}
+    <div class="form-group">
+      <label for="username_email">Tên đăng nhập</label>
+      <input placeholder="Email hoặc username" type="text" class="form-control" name="username_email" id="username_email">
+    </div>
+    <div class="form-group">
+      <label for="password">Mật khẩu</label>
+      <input placeholder="Mật khẩu" type="password" class="form-control" name="password" id="password">
+    </div>
+    {% comment %} <div class="form-group">
+      <a class="btn-forgot-password" href="/doi-mat-khau">Quên mật khẩu</a>
+    </div> {% endcomment %}
+    <button type="submit" class="btn-login btn btn-light">Đăng nhập</button>
+  </form>
+</div>
+{% endblock %}

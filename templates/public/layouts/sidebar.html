@@ -1,0 +1,37 @@
+<div class="p-0 pl-2" style="width: 29.17%">
+  <div class="news-group-title">Tin được quan tâm</div>
+  <div
+    id="interested-slide"
+    class="carousel slide"
+    data-ride="carousel"
+    data-interval="5000"
+  >
+    <div class="carousel-inner">
+      {% for chunks in top_view_posts %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <ul>
+          {% for p in chunks %}
+          <li class="news-item">
+            <a href="/{{ p.category.slug }}/{{ p.slug }}">
+              <img src="{{ p.thumbnail }}" alt="" />
+            </a>
+            <div>
+              <a href="/{{ p.category.slug }}/{{ p.slug }}">
+                <h2>{{ p.title }}</h2>
+              </a>
+              <p>
+                <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                <script type="text/javascript">
+                  writeTimeFormat("{{ p.created_at|escapejs }}");
+                </script>
+                <a class="news-category" href="/{{ p.category.slug }}">An toàn thông tin</a>
+              </p>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

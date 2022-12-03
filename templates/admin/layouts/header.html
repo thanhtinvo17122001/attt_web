@@ -21,13 +21,13 @@
       >
         <i class="fas fa-user-circle fa-fw"></i>
       </a>
-      <div
-        class="dropdown-menu dropdown-menu-right"
-      >
-        <div class="dropdown-item">thanhtinvo17122001</div>
+      {% if auth_authenticated %}
+      <div class="dropdown-menu dropdown-menu-right">
+        <div class="dropdown-item">{{ auth_email }}</div>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="/auth/logout?mode=admin">Đăng xuất</a>
+        <a class="dropdown-item" href="/dang-xuat">Đăng xuất</a>
       </div>
+      {% endif %}
     </li>
   </ul>
 </nav>

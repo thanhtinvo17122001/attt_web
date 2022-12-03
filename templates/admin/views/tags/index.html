@@ -27,7 +27,6 @@
           <tr>
             <td>Tên thẻ</td>
             <td>URL thẻ</td>
-            <td>Tạo bởi</td>
             <td>Hành động</td>
           </tr>
         </thead>
@@ -38,7 +37,6 @@
               <a href="/admin/tags/{{ t.id }}">{{ t.name }}</a>
             </td>
             <td>/{{ t.slug }}</td>
-            <td>{{ t.created_by.username }}</td>
             <td>
               <a onclick="return confirm('Bạn có muốn xoá {{t.name}}?')" href="/admin/tags/delete/{{t.id}}">
                 Xoá</a>
