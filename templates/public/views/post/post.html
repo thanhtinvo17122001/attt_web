@@ -1,0 +1,39 @@
+{% extends 'public/layouts/master.html' %} {% block body %}
+<div class="post-content">
+  <div class="news-group-title news-category-title">
+    {{ post.category.name }}
+  </div>
+  <h1 class="post-title">{{ post.title }}</h1>
+  <div class="news-item post-time">
+    <p>
+      <i class="fa-regular fa-clock" aria-hidden="true"></i>
+      <script type="text/javascript">
+        writeTimeFormat("{{ post.created_at|escapejs }}");
+      </script>
+      <a href="/{{ post.category.slug }}">{{ post.category.name }}</a>
+    </p>
+  </div>
+  <strong class="post-description">{{ post.description }}</strong>
+  <div>{{ post.content|safe }}</div>
+  <div class="mt-3 comments">
+    {% for c in comments %}
+    <div>
+      <h6>
+        {% if c.user.full_name %}
+        {{ c.user.full_name }}
+        {% else %}
+        {{ c.user.username }}
+        {% endif %} 
+      </h6>
+      <p>{{ c.content }}</p>
+    </div>
+    {% endfor %}
+  </div>
+  {% if auth_authenticated %}
+  <div class="input-group mt-3">
+    <textarea placeholder="Nhập comment của bạn" class="form-control txt-comment"></textarea>
+  </div>
+  <button type="button" class="btn-comment btn btn-light mt-2">Comment</button>
+  {% endif %}
+</div>
+{% endblock %}

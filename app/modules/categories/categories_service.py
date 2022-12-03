@@ -7,6 +7,13 @@ def find_many():
 def find_all(**params):
   return Categories.objects.filter(**params)
 
+def find_tree():
+  categories = list(find_all())
+  parents = [c for c in categories if c.parent_id == None]
+  for c in parents:
+    c.children = [n for n in categories if n.parent_id == c.id]
+  return parents
+
 def find_parents():
   return Categories.objects.filter(parent_id=None)
 

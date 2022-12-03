@@ -28,7 +28,6 @@
             <td>Tên danh mục</td>
             <td>URL danh mục</td>
             <td>Danh mục cha</td>
-            <td>Tạo bởi</td>
             <td>Hành động</td>
           </tr>
         </thead>
@@ -42,7 +41,6 @@
             <td>
               <a href="/admin/categories/{{ c.parent.id }}">{{ c.parent.name }}</a>
             </td>
-            <td>{{ c.created_by.username }}</td>
             <td>
               <a onclick="return confirm('Bạn có muốn xoá {{c.name}}?')" href="/admin/categories/delete/{{c.id}}">
                 Xoá</a>

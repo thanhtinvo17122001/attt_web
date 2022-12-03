@@ -23,6 +23,7 @@ class Users(BaseModel):
   avatar = TextField(max_length=255, null=True, default='https://aui.atlassian.com/aui/latest/docs/images/avatar-person.svg')
   role = TextField(255)
   status = TextField(255)
+  otp = TextField(max_length=5, null=True)
 
   class Meta:
     db_table = 'users'

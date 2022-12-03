@@ -1,0 +1,49 @@
+{% extends 'public/layouts/master.html' %} {% block body %}
+<div class="" style="width: 50%">
+  <div class="news-group-title news-category-title">
+    Tìm kiếm
+  </div>
+  <p>Kết quả tìm kiếm cho: {{ q }}</p>
+  <div>
+    {% if search_posts %}
+    <ul class="category-news-list search-news-list">
+      {% for p in search_posts %}
+      <li class="news-item">
+        <a href="/{{ p.category.slug }}/{{ p.slug }}">
+          <img src="{{ p.thumbnail }}"  alt=""/>
+        </a>
+        <div>
+          <a href="/{{ p.category.slug }}/{{ p.slug }}">
+            <h2>{{ p.title }}</h2>
+          </a>
+          <p>{{ p.description }} </p>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>Không tìm thấy bài viết nào.</p>
+    {% endif %}
+  </div>
+</div>
+<div class="p-0 pl-3" style="width: 20.83%">
+  <div class="news-group-title">Tin mới</div>
+  <ul>
+    {% for p in recent_posts %}
+    <li class="news-item">
+      <div>
+        <a href="/{{ p.category.slug }}/{{ p.slug }}">
+          <h2>{{ p.title }}</h2>
+        </a>
+        <p>
+          <i class="fa-regular fa-clock" aria-hidden="true"></i>
+          <script type="text/javascript">
+            writeTimeFormat("{{ p.created_at|escapejs }}");
+          </script>
+        </p>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

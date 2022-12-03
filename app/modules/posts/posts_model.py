@@ -1,5 +1,5 @@
 import uuid
-from django.db.models import UUIDField, TextField, JSONField, ForeignKey, NOT_PROVIDED
+from django.db.models import UUIDField, TextField, JSONField, ForeignKey, BigIntegerField, NOT_PROVIDED
 from app.common.base_model import BaseModel
 
 class Posts(BaseModel):
@@ -10,6 +10,7 @@ class Posts(BaseModel):
   description = TextField()
   content = TextField()
   tag_ids = JSONField(null=True)
+  view_count = BigIntegerField(default=0)
   category = ForeignKey('Categories', null=True, on_delete=NOT_PROVIDED)
 
   class Meta:

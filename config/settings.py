@@ -42,6 +42,7 @@ MIDDLEWARE = [
   'django.contrib.auth.middleware.AuthenticationMiddleware',
   'django.contrib.messages.middleware.MessageMiddleware',
   'django.middleware.clickjacking.XFrameOptionsMiddleware',
+  'app.common.middleware.app_middleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -57,6 +58,9 @@ TEMPLATES = [
         'django.template.context_processors.request',
         'django.contrib.auth.context_processors.auth',
         'django.contrib.messages.context_processors.messages',
+        'django.contrib.messages.context_processors.messages',
+        'app.common.context.public_pages_processor',
+        'app.common.context.app_processor',
       ],
     },
   },
@@ -122,3 +126,34 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'thanhtin1712.uit@gmail.com'
+EMAIL_HOST_PASSWORD = 'nagousoccylnyalb'
+# EMAIL_HOST_PASSWORD = 'ncrlxcbihkogghhl'
+
+LOGGING = {
+  'version': 1,
+  'filters': {
+    'require_debug_true': {
+        '()': 'django.utils.log.RequireDebugTrue',
+    }
+  },
+  'handlers': {
+    'console': {
+        'level': 'DEBUG',
+        'filters': ['require_debug_true'],
+        'class': 'logging.StreamHandler',
+    }
+  },
+  'loggers': {
+    'django.db.backends': {
+        'level': 'DEBUG',
+        'handlers': ['console'],
+    }
+  }
+}

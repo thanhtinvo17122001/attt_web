@@ -27,7 +27,7 @@
           <tr>
             <td style="width: 30%">Tiêu đề</td>
             <td>Danh mục</td>
-            <td>Tạo bởi</td>
+            <td>Lượt xem</td>
             <td>Hành động</td>
           </tr>
         </thead>
@@ -40,7 +40,7 @@
             <td>
               <a href="/admin/categories/{{ p.category.id }}">{{ p.category.name }}</a>
             </td>
-            <td>{{ p.created_by.username }}</td>
+            <td>{{ p.view_count }}</td>
             <td>
               <a onclick="return confirm('Bạn có muốn xoá {{p.title}}?')" href="/admin/posts/delete/{{p.id}}">
                 Xoá</a>
