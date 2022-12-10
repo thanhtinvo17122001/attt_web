@@ -4,6 +4,9 @@ from django.utils.text import slugify
 def find_many():
   return Tags.objects.select_related('created_by', 'updated_by').order_by('-updated_at')
 
+def find_all(**params):
+  return Tags.objects.filter(**params)
+
 def find_one(**params):
   return Tags.objects.filter(**params).first()
 
@@ -13,6 +16,11 @@ def find_one_by_name_exclude_id(name, id):
 def create(**payload):
   tag = Tags(name=payload['name'], slug=slugify(payload['name']))
   tag.save()
+
+def insert(**payload):
+  tag = Tags(**payload)
+  tag.save()
+  return tag
 
 def update(tag, **payload):
   tag.name = payload['name']

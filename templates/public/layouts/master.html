@@ -22,7 +22,9 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
     />
     <script src="https://momentjs.com/downloads/moment.js"></script>
-    <title>An toàn thông tin</title>
+    <title>
+      {% if title %} {{title}}  {% else %} An toàn thông tin {% endif %} 
+    </title>
     <script type="text/javascript">
       function writeTimeFormat(dateString) {
         const time = moment(new Date(dateString)).format('HH:00 | D/MM/YYYY');

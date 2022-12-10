@@ -1,5 +1,5 @@
 {% extends 'public/layouts/master.html' %} {% block body %}
-<div class="" style="width: 50%">
+<div class="" style="width: 70.83%">
   <div class="news-group-title news-category-title">
     Tìm kiếm
   </div>
@@ -17,6 +17,13 @@
             <h2>{{ p.title }}</h2>
           </a>
           <p>{{ p.description }} </p>
+          <p>
+            <i class="fa-regular fa-clock" aria-hidden="true"></i>
+            <script type="text/javascript">
+              writeTimeFormat("{{ p.created_at|escapejs }}");
+            </script>
+            <a class="news-category" href="/{{ p.category.slug }}">{{ p.category.name }}</a>
+          </p>
         </div>
       </li>
       {% endfor %}
@@ -25,25 +32,5 @@
     <p>Không tìm thấy bài viết nào.</p>
     {% endif %}
   </div>
-</div>
-<div class="p-0 pl-3" style="width: 20.83%">
-  <div class="news-group-title">Tin mới</div>
-  <ul>
-    {% for p in recent_posts %}
-    <li class="news-item">
-      <div>
-        <a href="/{{ p.category.slug }}/{{ p.slug }}">
-          <h2>{{ p.title }}</h2>
-        </a>
-        <p>
-          <i class="fa-regular fa-clock" aria-hidden="true"></i>
-          <script type="text/javascript">
-            writeTimeFormat("{{ p.created_at|escapejs }}");
-          </script>
-        </p>
-      </div>
-    </li>
-    {% endfor %}
-  </ul>
 </div>
 {% endblock %}

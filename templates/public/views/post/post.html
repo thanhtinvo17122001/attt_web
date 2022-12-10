@@ -19,19 +19,27 @@
     {% for c in comments %}
     <div>
       <h6>
-        {% if c.user.full_name %}
-        {{ c.user.full_name }}
-        {% else %}
-        {{ c.user.username }}
-        {% endif %} 
+        {% if c.user.full_name %} {{ c.user.full_name }} {% else %} {{
+        c.user.username }} {% endif %}
       </h6>
       <p>{{ c.content }}</p>
     </div>
     {% endfor %}
   </div>
+  <div class="tags">
+    <ul class="left m0 p0">
+      <li>Từ khóa:</li>
+      {% for t in tags %}
+      <li><a href="/tu-khoa/{{ t.slug}}">{{ t.name }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
   {% if auth_authenticated %}
   <div class="input-group mt-3">
-    <textarea placeholder="Nhập comment của bạn" class="form-control txt-comment"></textarea>
+    <textarea
+      placeholder="Nhập comment của bạn"
+      class="form-control txt-comment"
+    ></textarea>
   </div>
   <button type="button" class="btn-comment btn btn-light mt-2">Comment</button>
   {% endif %}
