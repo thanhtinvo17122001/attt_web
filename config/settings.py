@@ -18,8 +18,11 @@ SECRET_KEY = 'django-insecure-#attx@2=oxf44w&vkksc_vr#75bb7bzajzs)*iclj293!w!wj#
 DEBUG = True
 # DEBUG = False
 
-# ALLOWED_HOSTS = ['127.0.0.1']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+  '127.0.0.1',
+  '8dd8-171-225-184-149.ap.ngrok.io'
+]
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -136,24 +139,24 @@ EMAIL_HOST_USER = 'thanhtin1712.uit@gmail.com'
 EMAIL_HOST_PASSWORD = 'nagousoccylnyalb'
 # EMAIL_HOST_PASSWORD = 'ncrlxcbihkogghhl'
 
-LOGGING = {
-  'version': 1,
-  'filters': {
-    'require_debug_true': {
-        '()': 'django.utils.log.RequireDebugTrue',
-    }
-  },
-  'handlers': {
-    'console': {
-        'level': 'DEBUG',
-        'filters': ['require_debug_true'],
-        'class': 'logging.StreamHandler',
-    }
-  },
-  'loggers': {
-    'django.db.backends': {
-        'level': 'DEBUG',
-        'handlers': ['console'],
-    }
-  }
-}
+# LOGGING = {
+#   'version': 1,
+#   'filters': {
+#     'require_debug_true': {
+#         '()': 'django.utils.log.RequireDebugTrue',
+#     }
+#   },
+#   'handlers': {
+#     'console': {
+#         'level': 'DEBUG',
+#         'filters': ['require_debug_true'],
+#         'class': 'logging.StreamHandler',
+#     }
+#   },
+#   'loggers': {
+#     'django.db.backends': {
+#         'level': 'DEBUG',
+#         'handlers': ['console'],
+#     }
+#   }
+# }

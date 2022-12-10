@@ -12,3 +12,10 @@ def generateOtpCode(len = 5):
       otp += digits[math.floor(random.random() * 10)]
 
     return otp
+
+# find nth index of string in string
+def find_nth(string, substring, n):
+  if (n == 1):
+    return string.find(substring)
+  else:
+    return string.find(substring, find_nth(string, substring, n - 1) + 1)

@@ -22,4 +22,5 @@ def index(request, slug):
     'recent_posts': recent_posts,
     'recent_category_posts': recent_category_posts,
     'category': category,
+    'title': category.name,
   })

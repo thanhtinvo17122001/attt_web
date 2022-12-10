@@ -7,15 +7,18 @@ from app.common.helper import chunks
 def find_many():
   return Posts.objects.select_related('created_by', 'category').order_by('-updated_at')
 
+def find_by_tag_id(tag_id):
+  return Posts.objects.filter(tag_ids__contains=tag_id).select_related('category').order_by('-updated_at')[:50]
+
 def search_posts(title):
-  return Posts.objects.filter(title__icontains=title).select_related('category').order_by('-view_count', '-updated_at')[:30]
+  return Posts.objects.filter(title__icontains=title).select_related('category').order_by('-view_count', '-updated_at')[:50]
 
 def find_recent_posts(**params):
-  return Posts.objects.filter(**params).select_related('category').order_by('-updated_at')[:10]
+  return Posts.objects.filter(**params).select_related('category').order_by('-updated_at')[:20]
 
 def find_recent_posts_by_parent_category(category_id):
   category_ids = Categories.objects.filter(Q(parent_id=category_id) | Q(id=category_id)).values_list('id')
-  return Posts.objects.filter(category_id__in=category_ids).select_related('category').order_by('-updated_at')[:10]
+  return Posts.objects.filter(category_id__in=category_ids).select_related('category').order_by('-updated_at')[:50]
 
 def find_top_view_posts(num_posts):
   return Posts.objects.select_related('category').order_by('-view_count', '-updated_at')[:num_posts]
@@ -37,6 +40,11 @@ def create(**payload):
   payload['slug'] = slugify(payload['title'])
   post = Posts(**payload)
   post.save()
+
+def insert(**payload):
+  post = Posts(**payload)
+  post.save()
+  return post
 
 def update(post, **payload):
   post.title = payload['title']

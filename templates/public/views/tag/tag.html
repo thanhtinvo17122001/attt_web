@@ -1,0 +1,36 @@
+{% extends 'public/layouts/master.html' %} {% block body %}
+<div class="" style="width: 70.83%">
+  <div class="news-group-title news-category-title">
+    {{ tag.name }}
+  </div>
+  <p>Kết quả tìm kiếm từ khoá: {{ tag.name }}</p>
+  <div>
+    {% if posts %}
+    <ul class="category-news-list search-news-list">
+      {% for p in posts %}
+      <li class="news-item">
+        <a href="/{{ p.category.slug }}/{{ p.slug }}">
+          <img src="{{ p.thumbnail }}"  alt=""/>
+        </a>
+        <div>
+          <a href="/{{ p.category.slug }}/{{ p.slug }}">
+            <h2>{{ p.title }}</h2>
+          </a>
+          <p>{{ p.description }} </p>
+          <p>
+            <i class="fa-regular fa-clock" aria-hidden="true"></i>
+            <script type="text/javascript">
+              writeTimeFormat("{{ p.created_at|escapejs }}");
+            </script>
+            <a class="news-category" href="/{{ p.category.slug }}">{{ p.category.name }}</a>
+          </p>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>Không tìm thấy bài viết nào.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -14,6 +14,13 @@
             <h2>{{ p.title }}</h2>
           </a>
           <p>{{ p.description }} </p>
+          <p>
+            <i class="fa-regular fa-clock" aria-hidden="true"></i>
+            <script type="text/javascript">
+              writeTimeFormat("{{ p.created_at|escapejs }}");
+            </script>
+            <a class="news-category" href="/{{ p.category.slug }}">{{ p.category.name }}</a>
+          </p>
         </div>
       </li>
       {% endfor %}

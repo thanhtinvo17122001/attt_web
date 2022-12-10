@@ -156,7 +156,7 @@ def register_post(request):
     subject='Đăng ký tài khoản web An toàn thông tin',
     body=mail_body,
     from_email='thanhtin1712.uit@gmail.com',
-    to=['tranhuuhongson@gmail.com'],
+    to=[email],
   )
   msg.attach_alternative(mail_body, 'text/html')
   msg.send(fail_silently=False)
