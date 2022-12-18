@@ -15,17 +15,6 @@
   </div>
   <strong class="post-description">{{ post.description }}</strong>
   <div>{{ post.content|safe }}</div>
-  <div class="mt-3 comments">
-    {% for c in comments %}
-    <div>
-      <h6>
-        {% if c.user.full_name %} {{ c.user.full_name }} {% else %} {{
-        c.user.username }} {% endif %}
-      </h6>
-      <p>{{ c.content }}</p>
-    </div>
-    {% endfor %}
-  </div>
   <div class="tags">
     <ul class="left m0 p0">
       <li>Từ khóa:</li>
@@ -34,11 +23,98 @@
       {% endfor %}
     </ul>
   </div>
+  <div class="mt-3 comments">
+    {% for c in comments %}
+    <div class="comments-item">
+      <div class="avatar">
+        <img src="{{ c.user.avatar }}" />
+      </div>
+      <div class="comment-item-content">
+        <h6>
+          {% if c.user.full_name %} {{ c.user.full_name }} {% else %} {{
+          c.user.username }} {% endif %}
+        </h6>
+        <p>{{ c.content }}</p>
+        <textarea
+          placeholder="Nhập comment của bạn"
+          class="d-none form-control mb-1 txt-comment txt-edit"
+        ></textarea>
+        <div class="actions">
+          <span class="save d-none" data-id="{{c.id}}">Lưu</span>
+          <span class="cancel d-none">Huỷ</span>
+          <span class="reply">Trả lời</span>
+          {% if c.user.id.hex == auth_user_id %}
+          <span class="edit">Sửa</span>
+          <span class="delete" data-id="{{c.id}}">Xoá</span>
+          {% endif %} {% if c.children %}
+          <span class="replys"><span class="count">{{c.children|length}}</span> phản hồi</span>
+          {% endif %}
+          <span class="time">
+            <script type="text/javascript">
+              writeRelativeTime("{{ c.created_at|escapejs }}");
+            </script>
+          </span>
+          <span class="edited">
+            {% if c.created_at != c.updated_at %}Edited{% endif %}
+          </span>
+        </div>
+        <div class="replys d-none">
+          {% for sub in c.children %}
+          <div class="comments-item">
+            <div class="avatar">
+              <img src="{{ sub.user.avatar }}" />
+            </div>
+            <div class="comment-item-content">
+              <h6>
+                {% if sub.user.full_name %} {{ sub.user.full_name }} {% else %}
+                {{ sub.user.username }} {% endif %}
+              </h6>
+              <p>{{ sub.content }}</p>
+              <textarea
+                placeholder="Nhập comment của bạn"
+                class="d-none form-control mb-1 txt-comment txt-edit"
+              ></textarea>
+              <div class="actions">
+                <span class="save d-none" data-id="{{sub.id}}">Lưu</span>
+                <span class="cancel d-none">Huỷ</span>
+                {% if sub.user.id.hex == auth_user_id %}
+                <span class="edit">Sửa</span>
+                <span class="delete" data-id="{{sub.id}}">Xoá</span>
+                {% endif %}
+                <span class="time">
+                  <script type="text/javascript">
+                    writeRelativeTime("{{ sub.created_at|escapejs }}");
+                  </script>
+                </span>
+
+                <span class="edited">
+                  {% if sub.created_at != sub.updated_at %} Edited {% endif %}
+                </span>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="reply-input comments-item d-none">
+          <textarea
+            placeholder="Nhập comment của bạn"
+            class="form-control mb-1 txt-comment txt-reply"
+            data-id="{{c.id}}"
+          ></textarea>
+          <div class="actions">
+            <span class="save">Lưu</span>
+            <span class="cancel">Huỷ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
   {% if auth_authenticated %}
   <div class="input-group mt-3">
     <textarea
       placeholder="Nhập comment của bạn"
-      class="form-control txt-comment"
+      class="form-control txt-comment txt-comment-root"
     ></textarea>
   </div>
   <button type="button" class="btn-comment btn btn-light mt-2">Comment</button>

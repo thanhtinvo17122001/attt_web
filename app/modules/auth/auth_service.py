@@ -1,3 +1,4 @@
+from app.modules.users import users_service
 
 def login(request, user):
   request.session['auth_user_id'] = user.id.hex
@@ -5,6 +6,8 @@ def login(request, user):
   request.session['auth_username'] = user.username
   request.session['auth_email'] = user.email
   request.session['auth_role'] = user.role
+  request.session['auth_avatar'] = user.avatar
+  request.session['auth_full_name'] = user.full_name
   request.user = user
 
 def logout(request):
@@ -13,13 +16,24 @@ def logout(request):
   del request.session['auth_username']
   del request.session['auth_email']
   del request.session['auth_role']
+  del request.session['auth_avatar']
+  del request.session['auth_full_name']
   request.user = None
 
 def get_auth_data(request):
+  user_id = request.session.get('auth_user_id', None)
+
+  if not user_id:
+    return {}
+
+  user = users_service.find_one(id=user_id)
+
   return {
-    'auth_user_id': request.session.get('auth_user_id', None),
-    'auth_authenticated': request.session.get('auth_authenticated', None),
-    'auth_username': request.session.get('auth_username', False),
-    'auth_email': request.session.get('auth_email', False),
-    'auth_role': request.session.get('auth_role', False),
+    'auth_user_id': user.id.hex,
+    'auth_authenticated': True,
+    'auth_username': user.username,
+    'auth_email': user.email,
+    'auth_role': user.role,
+    'auth_avatar': user.avatar,
+    'auth_full_name': user.full_name,
   }

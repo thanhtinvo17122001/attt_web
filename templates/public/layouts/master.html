@@ -26,8 +26,12 @@
       {% if title %} {{title}}  {% else %} An toàn thông tin {% endif %} 
     </title>
     <script type="text/javascript">
-      function writeTimeFormat(dateString) {
-        const time = moment(new Date(dateString)).format('HH:00 | D/MM/YYYY');
+      function writeTimeFormat(dateString, format='HH:00 | DD/MM/YYYY') {
+        const time = moment(new Date(dateString)).format(format);
+        document.write(time);
+      }
+      function writeRelativeTime(dateString) {
+        const time = moment(new Date(dateString)).fromNow(true);
         document.write(time);
       }
     </script>
@@ -46,7 +50,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
     $(document).ready(function () {
-      $(".txt-comment").keypress(function (e) {
+      // Add new comment
+      $(".txt-comment-root").keypress(function (e) {
         const code = (e.keyCode ? e.keyCode : e.which);
         if (code == 13) {
           $('.btn-comment').trigger('click');
@@ -56,14 +61,15 @@
       $('.btn-comment')?.click(() => {
         function done(res) {
           $('.comments').append(res);
-          $('.txt-comment').val('').focus();
+          $('.txt-comment-root').val('').focus();
         }
         function failure(jqXHR, textStatus, errorThrown) {
           // console.log(jqXHR.responseText);
         }
-        const content = $('.txt-comment').val();
+        const content = $('.txt-comment-root').val();
+        if (!content) return;
         const post_id = '{{post.id}}';
-        const url = `/comments/${post_id}`;
+        const url = `/${post_id}/comments`;
         const csrf_token = '{{ csrf_token }}';
         $.ajaxSetup({
           headers: { 'X-CSRFToken': csrf_token }
@@ -78,6 +84,144 @@
 
         $.ajax(options).done(done).fail(failure);
       });
+      // Edit comment
+      $(document.body).on('click', '.comments-item span.replys', function() {
+        const $parent = $(this).closest('.comments-item');
+        $parent.find('div.replys').toggleClass('d-none');
+      });
+      function toggleEditMode(current, options = { isEdit: false, isSave: false }) {
+        const $parent = $(current).closest('.comments-item');
+
+        if (!$parent.hasClass('reply-input')) {
+          $parent.find(' textarea').toggleClass('d-none');
+          $parent.find(' p').toggleClass('d-none');
+          $parent.find('div:not(.replys) > span.save').toggleClass('d-none');
+          $parent.find('div:not(.replys) > span.cancel').toggleClass('d-none');
+          $parent.find('div:not(.replys) > span.edit').toggleClass('d-none');
+          $parent.find('div:not(.replys) > span.reply').toggleClass('d-none');
+          $parent.find('div:not(.replys) > span.delete').toggleClass('d-none');
+          $parent.find('div:not(.replys) > span.replys').toggleClass('d-none');
+        }
+
+        if (options.isReply) {
+          $parent.find('.div.replys').toggleClass('d-none');
+        }
+
+        if (options.isEdit) {
+          const comment = $parent.find('> div > p').text();
+          $parent.find('> div > textarea').focus().val(comment);
+        }
+        if (options.isSave) {
+          const content = $parent.find('> div > textarea').val();
+          if (!content) return;
+          $parent.find('> div > p').text(content);
+
+          function done(res) {
+            $parent.find('div:not(.replys) > span.edited').text('Edited')
+          }
+          function failure(jqXHR, textStatus, errorThrown) {}
+          const post_id = '{{post.id}}';
+          const comment_id = $(current).data('id');
+          const url = `/${post_id}/comments/${comment_id}/update`;
+          const csrf_token = '{{ csrf_token }}';
+          $.ajaxSetup({
+            headers: { 'X-CSRFToken': csrf_token }
+          });
+          const options = {
+            method: 'POST',
+            data: JSON.stringify({ content }),
+            dataType: 'html',
+            contentType: 'application/json',
+            url,
+          };
+
+          $.ajax(options).done(done).fail(failure);
+        }
+      }
+      $(document.body).on('click', '.comments-item span.edit', function() {
+        toggleEditMode(this, { isEdit: true });
+      })
+      $(document.body).on('click', '.comments-item span.cancel', function() {
+        toggleEditMode(this);
+      })
+      $(document.body).on('click', '.reply-input.comments-item span.save', function() {
+        const $parent = $(this).closest('.comments-item');
+        $parent.toggleClass('d-none');
+        function done(res) {
+          $parent.siblings('.replys').first().removeClass('d-none').append(res);
+          const $count = $parent.siblings('.actions').first().find('span.count');
+          $count.text(parseInt($count.text()) + 1);
+        }
+        function failure(jqXHR, textStatus, errorThrown) {
+        }
+        const $txt = $parent.find('.txt-reply');
+        const content = $txt.val();
+        if (!content) return;
+        const post_id = '{{post.id}}';
+        const comment_id = $txt.data('id');
+        const url = `/${post_id}/comments/${comment_id}/reply`;
+        const csrf_token = '{{ csrf_token }}';
+        $.ajaxSetup({
+          headers: { 'X-CSRFToken': csrf_token }
+        });
+        const options = {
+          method: 'POST',
+          data: JSON.stringify({ content }),
+          dataType: 'html',
+          contentType: 'application/json',
+          url,
+        };
+
+        $.ajax(options).done(done).fail(failure);
+      })
+      $(document.body).on('click', '.reply-input.comments-item span.cancel', function() {
+        const $parent = $(this).closest('.comments-item');
+        $parent.toggleClass('d-none');
+      })
+      $(document.body).on('click', '.comments-item span.save', function() {
+        toggleEditMode(this, { isSave: true });
+      })
+      $(document.body).on('click', '.comments-item span.delete', function() {
+        if (!confirm('Bạn có chắc chắn muốn xoá bình luận?')) {
+          return;
+        }
+        const $parent = $(this).closest('.comments-item');
+        //$parent.toggleClass('d-none');
+        function done(res) {
+          $count = $parent.parent().siblings('.actions').find('span.count');
+          $count.text(parseInt($count.text()) - 1)
+          $parent.remove();
+        }
+        function failure(jqXHR, textStatus, errorThrown) {
+        }
+        const post_id = '{{post.id}}';
+        const comment_id = $(this).data('id');
+        const url = `/${post_id}/comments/${comment_id}/delete`;
+        const csrf_token = '{{ csrf_token }}';
+        $.ajaxSetup({
+          headers: { 'X-CSRFToken': csrf_token }
+        });
+        const options = {
+          method: 'POST',
+          //data: JSON.stringify({ content }),
+          dataType: 'html',
+          contentType: 'application/json',
+          url,
+        };
+
+        $.ajax(options).done(done).fail(failure);
+      })
+      $(document.body).on('click', '.comments-item span.reply', function() {
+        const $parent = $(this).closest('.comments-item');
+        $parent.find('.reply-input').toggleClass('d-none');
+        $parent.find('.txt-reply').focus().val('');
+      })
+      // Current time
+      function startTime() {
+        document.querySelector('.current-time').innerHTML = moment().format('HH:mm:ss | DD/MM/YYYY')
+        setTimeout(startTime, 1000);
+      }
+      startTime()
     });
   </script>
   </body>

@@ -9,8 +9,8 @@ def index(request, category_slug, post_slug):
   if post is None:
     return redirect('home')
 
-  tags = tags_service.find_all(id__in=post.tag_ids)
-  comments = comments_service.find_many(post_id=post.id)
+  tags = tags_service.find_all(id__in=post.tag_ids or [])
+  comments = comments_service.find_tree(post_id=post.id)
   posts_service.increase_view_count(id=post.id)
 
   return render(request, 'public/views/post/post.html', {

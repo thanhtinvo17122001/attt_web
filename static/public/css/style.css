@@ -33,6 +33,12 @@ ul, li {
   display: block;
   padding: 4px 0;
 }
+.top-header-inner .right {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
 .header {
   position: sticky;
   z-index: 1000;
@@ -114,13 +120,25 @@ ul, li {
   font-weight: bold;
   padding: 0 16px;
 }
+.sub-header {
+  max-width: 1075px;
+  margin: auto;
+  display: flex;
+  justify-content: end;
+  background-color: #fff;
+}
+.sub-header .current-time {
+  font-size: 15px;
+  font-weight: 600;
+  padding: 2px 4px;
+}
 /* Content */
 /* Main slide */
 .content {
   max-width: 1075px;
   margin: auto;
   background-color: #fff;
-  padding: 12px 6px 6px 6px;
+  padding: 0 6px 6px 6px;
 }
 
 #main-slide .carousel-item a {
@@ -197,7 +215,7 @@ ul, li {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  max-height: 52px;
+  min-height: 52px;
 }
 .news-item p {
   color: #888 !important;
@@ -321,12 +339,66 @@ ul, li {
 }
 .search-news {
   width: 250px;
+  transition: 0.2s;
+  margin-right: 8px;
+}
+.search-news input {
+  padding: 1.25rem 0.75rem;
+}
+.search-news:focus-within {
+  flex: 1;
+}
+.reply-input.comments-item {
+  display: block;
+}
+.comments-item {
+  /* background: #e9ecef82; */
+  padding: 6px 0;
+  border-radius: 5px;
+  display: flex;
+  margin-bottom: 8px;
+}
+.comment-item-content {
+  flex: 1;
+}
+.comments-item .avatar {
+  margin-right: 12px;
+}
+.comments-item img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid #e57800;
+  padding: 2px;
 }
 .comments h6 {
   font-weight: bold;
 }
 .comments p {
   font-size: 13px;
+}
+.comments span.time:hover,
+.comments span.edited:hover {
+  text-decoration: none;
+}
+.comments span.edited,
+.comments span.time {
+  color: #65676b;
+  cursor: default;
+}
+.comments span.count {
+  margin: 0;
+}
+.comments span {
+  font-size: 12px;
+  color: #4267b2;
+  cursor: pointer;
+  text-decoration: none;
+  margin-right: 8px;
+  user-select: none;
+}
+.comments span:hover {
+  text-decoration: underline;
 }
 .tags {
   margin: 62px 0 20px 0;
@@ -359,4 +431,30 @@ ul, li {
 .txtNews > br:nth-child(2),
 .txtNews > br:nth-child(3) {
   display: none;
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+}
+
+.profile-link img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 50%;
+  padding: 0;
+  margin-right: 4px;
+}
+img.avatar {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+.profile-avatar img.avatar {
+  border: 1px dashed #d56a00;
+  padding: 2px;
+}
+.btn-update-avatar {
+  background-color: #d96d00;
 }

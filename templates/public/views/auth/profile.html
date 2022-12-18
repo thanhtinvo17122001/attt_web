@@ -17,6 +17,11 @@
       {{message}}
     </div>
     {% endfor %}
+    <div class="form-group profile-avatar">
+      <img class="avatar rounded-circle" src="{{ auth_avatar }}" />
+      <input class="file-avatar d-none" type="file" accept="image/*" />
+      <button type="button" class="btn-update-avatar btn ml-2 d-none">Lưu</button>
+    </div>
     <div class="form-group">
       <label for="username_email">Tên đăng nhập</label>
       <input disabled type="text" class="form-control" value="{{ user.email }}">

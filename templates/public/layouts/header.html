@@ -4,24 +4,34 @@
     <a href="/">
       <img src="{% static 'public/img/home_icon.jpeg' %} " />
     </a>
-    <div>
-      <form method="GET" action="/tim-kiem" class="form-group d-inline-block search-news">
-        <input name="q" autocomplete="off" placeholder="Tìm bài viết..." type="text" class="form-control" name="username_email" id="username_email">
+
+    <div class="right">
+      <form
+        method="GET"
+        action="/tim-kiem"
+        class="form-group mb-0 d-inline-block search-news"
+      >
+        <input
+          name="q"
+          autocomplete="off"
+          placeholder="Tìm bài viết..."
+          type="text"
+          class="form-control"
+          name="username_email"
+          id="username_email"
+        />
       </form>
       {% if auth_authenticated %}
-      <a href="/trang-ca-nhan">
-        {{ auth_email }}
+      <a class="profile-link" href="/trang-ca-nhan"> 
+        <img src={{ auth_avatar }} />
+        <span>
+          {{ auth_full_name }} 
+        <span>
       </a>
-      <a href="/dang-xuat">
-        Đăng xuất
-      </a>
+      <a href="/dang-xuat"> Đăng xuất </a>
       {% else %}
-      <a href="/dang-nhap">
-        Đăng nhập
-      </a>
-      <a href="/dang-ky">
-        Đăng ký
-      </a>
+      <a href="/dang-nhap"> Đăng nhập </a>
+      <a href="/dang-ky"> Đăng ký </a>
       {% endif %}
     </div>
   </div>
@@ -44,4 +54,7 @@
       {% endfor %}
     </ul>
   </div>
+</div>
+<div class="sub-header">
+  <div class="current-time"><span style="visibility: hidden">Vi</span></div>
 </div>

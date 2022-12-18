@@ -34,6 +34,10 @@ def update_profile(user, **payload):
   user.full_name = payload['full_name']
   user.save()
 
+def update_avatar(user, **payload):
+  user.avatar = payload['avatar']
+  user.save()
+
 def update_password(user, new_password):
   user.password = make_password(new_password)
   user.save()
@@ -46,3 +50,6 @@ def confirm_register(user):
 def delete(id):
   Users.objects.get(id=id).delete()
 
+def update_otp(user, otp):
+  user.otp = otp
+  user.save()
