@@ -13,8 +13,8 @@ def find_by_tag_id(tag_id):
 def search_posts(title):
   return Posts.objects.filter(title__icontains=title).select_related('category').order_by('-view_count', '-updated_at')[:50]
 
-def find_recent_posts(**params):
-  return Posts.objects.filter(**params).select_related('category').order_by('-updated_at')[:20]
+def find_recent_posts(num=20,**params):
+  return Posts.objects.filter(**params).select_related('category').order_by('-updated_at')[:num]
 
 def find_recent_posts_by_parent_category(category_id):
   category_ids = Categories.objects.filter(Q(parent_id=category_id) | Q(id=category_id)).values_list('id')

@@ -1,10 +1,40 @@
-<div>
-  <h6>
-    {% if comment.user.full_name %}
-    {{ comment.user.full_name }}
-    {% else %}
-    {{ comment.user.username }}
-    {% endif %} 
-  </h6>
-  <p>{{ comment.content }}</p>
+<div class="comments-item">
+  <div class="avatar">
+    <img src="{{ comment.user.avatar }}" />
+  </div>
+  <div class="comment-item-content">
+    <h6>
+      {% if comment.user.full_name %} {{ comment.user.full_name }} {% else %} {{
+      comment.user.username }} {% endif %}
+    </h6>
+    <p>{{ comment.content }}</p>
+    <textarea
+      placeholder="Nhập comment của bạn"
+      class="d-none form-control mb-1 txt-comment"
+    ></textarea>
+    <div class="actions">
+      <span class="save d-none" data-id="{{comment.id}}">Lưu</span>
+      <span class="cancel d-none">Huỷ</span>
+      <span class="edit">Sửa</span>
+      <span class="delete" data-id="{{comment.id}}">Xoá</span>
+      {% if isReply != True %}
+      <span class="reply">Trả lời</span>
+      {% endif %}
+      <span class="time">just now</span>
+    </div>
+    {% if isReply != True %}
+    <div class="replys d-none"></div>
+    <div class="reply-input comments-item d-none">
+      <textarea
+        placeholder="Nhập comment của bạn"
+        class="form-control mb-1 txt-comment txt-reply"
+        data-id="{{comment.id}}"
+      ></textarea>
+      <div class="actions">
+        <span class="save">Lưu</span>
+        <span class="cancel">Huỷ</span>
+      </div>
+    </div>
+    {% endif %}
+  </div>
 </div>

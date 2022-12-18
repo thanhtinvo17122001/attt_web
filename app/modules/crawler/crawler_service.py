@@ -11,10 +11,13 @@ def run():
   response = requests.get(url)
   soup = BeautifulSoup(response.content, "html.parser")
 
+  # Lấy tất cả danh mục con
   # all menus excludes menus has children
   menus = soup.select('.menuMain-top ul li:not(.has-sub) > a')
+  # Tất cả link của các danh mục con
   category_links = [menu.attrs['href'] for menu in menus]
 
+  # Lặp tất cả danh mục
   for category_link in category_links:
     if category_link == '/': continue
     # if category_link == '/chinh-tri---xa-hoi': break
@@ -23,6 +26,7 @@ def run():
     # all posts from a category
     all_post_links = []
     page_category_link = category_link
+    # Lấy tất cả bài viết ở nhiều trang
     while True:
       categoryPage = requests.get(url + page_category_link)
       soup = BeautifulSoup(categoryPage.content, "html.parser")
@@ -42,20 +46,30 @@ def run():
     print('>>>>>>>>>>>> Crawling ', len(all_post_links), ' posts...')
     category = categories_service.find_one(slug=category_link[1:])
 
+    # all_post_links: tất cả link của 1 danh mục
     for post in all_post_links:
+      slug = post['link'][(find_nth(post['link'], '/', 2) + 1):]
+      exist_post = posts_service.find_one(slug=slug)
+      if exist_post: continue
+
       postPage = requests.get(url + post['link'])
       soup = BeautifulSoup(postPage.content, "html.parser")
+      # Lấy title
       title_dom = soup.select_one('.newsDetail > h1')
 
       print('----------------------------------------------------------------------------------------------------')
       # Has post
       if title_dom:
         print(title_dom.text)
+        # Lấy mô tả
         description = soup.select_one('.news-Content > div > strong').text.strip()
+        # Nội dung
         content = str(soup.select_one('.news-Content .txtNews'))
+        # Tác giả
         author = str(soup.select_one('.news-Content #tacgia'))
-        slug = post['link'][(find_nth(post['link'], '/', 2) + 1):]
+        # Ảnh bài viết
         thumbnail = post['img']
+        # Giờ tạo bài viết
         # Get time UTC+7
         time = soup.select_one('.time-topic')
         hh = time.text[:time.text.find('|')].strip()
@@ -71,6 +85,7 @@ def run():
           for tag in tags
         ]
 
+        # Danh sách từ khoá
         tag_ids = []
         for item in all_tag_links:
           tag = tags_service.find_one(slug=item['slug'])
@@ -86,6 +101,7 @@ def run():
             tag_ids.append(tag.id)
 
         tag_json = [id.hex for id in tag_ids]
+        # Insert thông tin vào Database
         try:
           posts_service.insert(
             category_id=category.id,
@@ -99,7 +115,7 @@ def run():
             updated_at=created_time,
             tag_ids=tag_json
           )
-          
+
         except:
           print("An exception occurred")
       # break

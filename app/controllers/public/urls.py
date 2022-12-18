@@ -7,7 +7,10 @@ from . import comment_controller as comments
 from . import tag_controller as tags
 
 urlpatterns = [
-  path('comments/<uuid:post_id>', comments.comment, name='comment_post'),
+  path('<uuid:post_id>/comments', comments.comment, name='comment_post'),
+  path('<uuid:post_id>/comments/<uuid:comment_id>/reply', comments.reply, name='reply_comment_post'),
+  path('<uuid:post_id>/comments/<uuid:comment_id>/delete', comments.delete, name='delete_comment_post'),
+  path('<uuid:post_id>/comments/<uuid:comment_id>/update', comments.update, name='update_comment_post'),
   path('', home.index, name='home'),
   path('tim-kiem', search.index, name='search'),
   path('tu-khoa/<slug:slug>', tags.index, name='tag'),
