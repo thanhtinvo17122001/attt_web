@@ -1,6 +1,9 @@
 {% load static %}
 <div class="top-header">
   <div class="top-header-inner">
+    <span class="toggle-menu">
+      <i class="fa fa-bars "></i>
+    </span>
     <a href="/">
       <img src="{% static 'public/img/home_icon.jpeg' %} " />
     </a>
@@ -40,7 +43,12 @@
   <div class="menus">
     <ul>
       <li>
-        <a href="/"><i class="fa fa-house"></i></a>
+        <a href="/"><i class="fa fa-house"></i>
+          <span class="home">Trang chủ</span>
+          <span class="close-menu">
+            <i class="fa fa-close "></i>
+          </span>
+        </a>
       </li>
       {% for c in categories %}
       <li>
@@ -58,3 +66,4 @@
 <div class="sub-header">
   <div class="current-time"><span style="visibility: hidden">Vi</span></div>
 </div>
+<div class="header-overlay"></div>

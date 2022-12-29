@@ -39,7 +39,7 @@
   <body>
     {% include 'public/layouts/header.html' %}
     <div class="content">
-      <div class="row m-0">
+      <div class="row m-0 content-row">
       {% block body %}{% endblock %}
       {% include 'public/layouts/sidebar.html' %}
       </div>
@@ -48,6 +48,7 @@
     {% include 'public/layouts/footer.html' %}
     <script src="{% static 'admin/js/jquery.min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'admin/js/script.js' %}"></script>
     <script>
     $(document).ready(function () {
       // Add new comment
