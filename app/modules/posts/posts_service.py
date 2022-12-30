@@ -7,18 +7,26 @@ from app.common.helper import chunks
 def find_many():
   return Posts.objects.select_related('created_by', 'category').order_by('-updated_at')
 
-def find_by_tag_id(tag_id):
-  return Posts.objects.filter(tag_ids__contains=tag_id).select_related('category').order_by('-updated_at')[:50]
+def find_by_tag_id(tag_id, offset=0, limit=10):
+  query = Posts.objects.filter(tag_ids__contains=tag_id).select_related('category').order_by('-updated_at')
+  return [query[offset:offset + limit], query.count()]
 
-def search_posts(title):
-  return Posts.objects.filter(title__icontains=title).select_related('category').order_by('-view_count', '-updated_at')[:50]
+def search_posts(title, offset = 0, limit = 10):
+  query = Posts.objects.filter(title__icontains=title).select_related('category').order_by('-view_count', '-updated_at')
+  return [query[offset:offset + limit], query.count()]
 
 def find_recent_posts(num=20,**params):
   return Posts.objects.filter(**params).select_related('category').order_by('-updated_at')[:num]
 
-def find_recent_posts_by_parent_category(category_id):
+def find_recent_posts_paginate(offset = 0, limit = 50, **params):
+  query = Posts.objects.filter(**params).select_related('category').order_by('-updated_at')
+  return [query[offset:offset + limit], query.count()]
+
+def find_recent_posts_by_parent_category(category_id, offset = 10, limit = 50):
   category_ids = Categories.objects.filter(Q(parent_id=category_id) | Q(id=category_id)).values_list('id')
-  return Posts.objects.filter(category_id__in=category_ids).select_related('category').order_by('-updated_at')[:50]
+  query =  Posts.objects.filter(category_id__in=category_ids).select_related('category').order_by('-updated_at')
+
+  return [query[offset:offset + limit], query.count()]
 
 def find_top_view_posts(num_posts):
   return Posts.objects.select_related('category').order_by('-view_count', '-updated_at')[:num_posts]

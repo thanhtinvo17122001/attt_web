@@ -29,7 +29,10 @@
       {% endfor %}
     </ul>
     {% else %}
-    <p>Không tìm thấy bài viết nào.</p>
+    <p>Không có bài viết nào.</p>
+    {% endif %}
+    {% if has_next %}
+    <a href="/tu-khoa/{{tag.slug}}/{{ page|add:'1' }}" class="view-more">Xem thêm</a>
     {% endif %}
   </div>
 </div>
