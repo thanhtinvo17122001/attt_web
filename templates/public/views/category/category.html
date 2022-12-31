@@ -1,5 +1,5 @@
 {% extends 'public/layouts/master.html' %} {% block body %}
-<div class="" style="width: 50%">
+<div class="content-main">
   <div class="news-group-title news-category-title">{{ category.name }}</div>
   <div>
     {% if recent_category_posts %}
@@ -26,11 +26,15 @@
       {% endfor %}
     </ul>
     {% else %}
-    <p>Chưa có bài viết nào.</p>
+    <p>Không có bài viết nào.</p>
+    {% endif %}
+
+    {% if has_next %}
+    <a href="/{{category.slug}}/{{ page|add:'1' }}" class="view-more">Xem thêm</a>
     {% endif %}
   </div>
 </div>
-<div class="p-0 pl-3" style="width: 20.83%">
+<div class="p-0 pl-3 content-recent">
   <div class="news-group-title">Tin mới</div>
   <ul>
     {% for p in recent_posts %}
